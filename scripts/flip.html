@@ -1,0 +1,54 @@
+<html>
+
+  <head>
+    <title>Flip chars</title>
+    <style type="text/css">
+      .mainContainer {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Courier New', Courier, monospace;
+        margin: 0 auto;
+        row-gap: 24px;
+        width: 640px;
+      }
+
+      textarea {
+        height: 350px;
+        width: 100%;
+      }
+    </style>
+    <script
+      type="text/javascript"
+      language="javascript"
+    >
+      window.addEventListener('load', () => {
+        document.getElementById('buttonFlip').addEventListener('click', () => {
+          const input = document.getElementById('charInput').value;
+          const lines = input.split('\n');
+
+          const sanitizedLines = lines.map((line) => {
+            return line.replaceAll(';', '').replaceAll('|', '').trim()
+          })
+
+          const inverted = sanitizedLines.reverse().join('\n')
+          const exportedConst = `const varName_ = \`\n${inverted}\`.slice(1)`;
+
+          document.getElementById('charOuput').value = exportedConst;
+          navigator.clipboard.writeText(exportedConst)
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="mainContainer">
+      <textarea
+        id="charInput"
+        placeholder="Enter chars to flip"
+      ></textarea>
+      <button id="buttonFlip">Flip</button>
+      <textarea id="charOuput"></textarea>
+    </div>
+  </body>
+
+</html>

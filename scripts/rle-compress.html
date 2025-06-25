@@ -1,0 +1,65 @@
+<html>
+
+  <head>
+    <title>RLE Compress</title>
+    <style type="text/css">
+      .mainContainer {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Courier New', Courier, monospace;
+        margin: 0 auto;
+        row-gap: 24px;
+        width: 640px;
+      }
+
+      textarea {
+        height: 350px;
+        width: 100%;
+      }
+    </style>
+    <script type="text/javascript">
+      function rleCompressSingleLine(text) {
+        const lines = text.split('\n');
+        const compressed = lines.map(line => {
+          if (line === '') return '';
+          let out = '';
+          let count = 1;
+          for (let i = 1; i <= line.length; i++) {
+            if (line[i] === line[i - 1]) {
+              count++;
+            } else {
+              out += count + line[i - 1];
+              count = 1;
+            }
+          }
+          return out;
+        });
+        return compressed.join('\\n');
+      }
+
+      window.addEventListener('load', () => {
+        document.getElementById('buttonFlip').addEventListener('click', () => {
+          const input = document.getElementById('charInput').value;
+          const compressed = rleCompressSingleLine(input);
+          document.getElementById('charOuput').value = compressed;
+          navigator.clipboard.writeText(compressed);
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="mainContainer">
+      <textarea
+        id="charInput"
+        placeholder="Enter chars to compress"
+      ></textarea>
+      <button id="buttonFlip">Compress</button>
+      <textarea
+        id="charOuput"
+        readonly
+      ></textarea>
+    </div>
+  </body>
+
+</html>
